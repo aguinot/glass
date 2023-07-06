@@ -15,6 +15,7 @@ Ellipticity
 .. autofunction:: ellipticity_gaussian
 .. autofunction:: ellipticity_intnorm
 .. autofunction:: ellipticity_ryden04
+.. autofunction:: ellipticity_rv
 
 
 Utilities
@@ -28,6 +29,7 @@ from __future__ import annotations
 
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
+from scipy import stats
 
 
 def triaxial_axis_ratio(zeta, xi, size=None, *, rng=None):
@@ -268,5 +270,45 @@ def ellipticity_intnorm(count: int | ArrayLike, sigma: ArrayLike, *,
         e *= np.divide(np.tanh(r/2), r, where=(r > 0), out=r)
         eps[i:i+count[k]] = e
         i += count[k]
+
+    return eps
+
+
+def ellipticity_rv(count: int | ArrayLike,
+                   eabs_dist: stats._distn_infrastructure.rv_generic | None,
+                   *,
+                   rng: np.random.Generator | None = None
+                   ) -> NDArray:
+    r"""Sample galaxy ellipticities from scipy rv distribution.
+
+    The ellipticities are sampled from a scipy rv distribution of |e|. The most
+    common one would be `rv_histogram`. But other distributions can work as
+    long as they have the `.rvs` method.
+
+    Parameters
+    ----------
+    count : int | array_like
+        Number of ellipticities to sample.
+    eabs_dist : :class:`stats._distn_infrastructure.rv_generic` | None
+        Scipy rv distribution of |e|.
+    rng : :class:`~numpy.random.Generator`, optional
+        Random number generator.  If not given, a default RNG is used.
+
+    Returns
+    -------
+    eps : array_like
+        Array of galaxy :term:`ellipticity`.
+    """
+
+    # default RNG if not provided
+    if rng is None:
+        rng = np.random.default_rng()
+    eabs_dist.random_state = rng
+
+    theta = rng.uniform(low=-np.pi/2., high=np.pi/2., size=count)
+
+    int_abs_e = eabs_dist.rvs(size=count)
+
+    eps = int_abs_e * np.exp(theta*2j)
 
     return eps
