@@ -28,15 +28,15 @@ class Cosmology(ccl.Cosmology):
         A_s=None,
         Omega_k=0.,
         Omega_g=None,
-        Neff=3.046,
+        Neff=None,
         m_nu=0.,
-        m_nu_type=None,
+        mass_split='normal',
         w0=-1.,
         wa=0.,
-        T_CMB=None,
-        bcm_log10Mc=np.log10(1.2e14),
-        bcm_etab=0.5,
-        bcm_ks=55.,
+        T_CMB=2.725,
+        bcm_log10Mc=None,
+        bcm_etab=None,
+        bcm_ks=None,
         mu_0=0.,
         sigma_0=0.,
         c1_mg=1.,
@@ -51,6 +51,7 @@ class Cosmology(ccl.Cosmology):
         halo_concentration='duffy2008',
         emulator_neutrinos='strict',
         extra_parameters=None,
+        T_ncdm=0.71611,
     ):
         super().__init__(
             Omega_c,
@@ -63,7 +64,7 @@ class Cosmology(ccl.Cosmology):
             Omega_g,
             Neff,
             m_nu,
-            m_nu_type,
+            mass_split,
             w0,
             wa,
             T_CMB,
@@ -84,6 +85,7 @@ class Cosmology(ccl.Cosmology):
             halo_concentration,
             emulator_neutrinos,
             extra_parameters,
+            T_ncdm,
         )
 
     @property

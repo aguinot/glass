@@ -209,7 +209,7 @@ def gaussian_phz(z: ArrayLike, sigma_0: float | ArrayLike,
     return zphot
 
 
-def kappa_ia_nla(delta, zeff, ia_bias, cosmo, *, use_A_ia):
+def kappa_ia_nla(delta, zeff, ia_bias, cosmo, *, use_A_ia=True):
     r'''Effective convergence from intrinsic alignments using the NLA
     model.
 
