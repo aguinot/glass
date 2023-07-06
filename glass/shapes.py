@@ -281,16 +281,16 @@ def ellipticity_rv(count: int | ArrayLike,
                    ) -> NDArray:
     r"""Sample galaxy ellipticities from scipy rv distribution.
 
-    The ellipticities are sampled from a scipy rv distribution. The most common
-    one would be `rv_histogram`. But other distributions can work as long as
-    they have the `.rvs` method.
+    The ellipticities are sampled from a scipy rv distribution of |e|. The most
+    common one would be `rv_histogram`. But other distributions can work as
+    long as they have the `.rvs` method.
 
     Parameters
     ----------
     count : int | array_like
         Number of ellipticities to sample.
     eabs_dist : :class:`stats._distn_infrastructure.rv_generic` | None
-        Scipy rv distribution.
+        Scipy rv distribution of |e|.
     rng : :class:`~numpy.random.Generator`, optional
         Random number generator.  If not given, a default RNG is used.
 
